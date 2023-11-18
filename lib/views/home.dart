@@ -40,6 +40,23 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 // 在這裡處理另一個右圖示的點擊事件
                 print('另一個右圖示被點擊了');
+                Get.toNamed(RouteConfig.test);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () {
+                // 在這裡處理另一個右圖示的點擊事件
+                print('另一個右圖示被點擊了');
+                Get.toNamed(RouteConfig.test2);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () {
+                // 在這裡處理另一個右圖示的點擊事件
+                print('另一個右圖示被點擊了');
+                Get.toNamed(RouteConfig.test3);
               },
             ),
           ],
