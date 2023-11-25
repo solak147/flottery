@@ -1,34 +1,15 @@
 import 'dart:convert';
 
-List<LotteryModel> postModelFromJson(String str) => List<LotteryModel>.from(
-    json.decode(str).map((x) => LotteryModel.fromJson(x)));
-
-Map<dynamic, dynamic> postModelFromJson2(String str) =>
-    Map<dynamic, dynamic>.from(json.decode(str));
-
-String postModelToJson(List<LotteryModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+import 'package:flottery/model/result_model.dart';
 
 class LotteryModel {
-  int ret;
-  var data;
-  String msg;
+  String lastOpenIssueNo;
 
   LotteryModel({
-    required this.ret,
-    required this.data,
-    required this.msg,
+    required this.lastOpenIssueNo,
   });
 
   factory LotteryModel.fromJson(Map<String, dynamic> json) => LotteryModel(
-        ret: json["ret"],
-        data: json["data"],
-        msg: json["msg"],
+        lastOpenIssueNo: json["lastOpenIssueNo"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "ret": ret,
-        "data": data,
-        "msg": msg,
-      };
 }
