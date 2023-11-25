@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int tabIndex = 0;
+  List<Widget> ballLst = [];
 
   @override
   void initState() {
@@ -25,6 +26,27 @@ class _HomePageState extends State<HomePage> {
     return GetX<LotteryController>(
         init: LotteryController(),
         builder: (controller) {
+          if (controller.model.value.data != null) {
+            for (var number
+                in controller.model.value.data!.info!.gameResult.split(',')) {
+              ballLst.add(
+                Container(
+                  margin: EdgeInsets.only(left: 3),
+                  width: 25,
+                  height: 25,
+                  padding: EdgeInsets.all(3),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("/images/number-icon-blue.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Text(number),
+                ),
+              );
+            }
+          }
+
           return DefaultTabController(
             length: 3,
             child: Scaffold(
@@ -137,56 +159,64 @@ class _HomePageState extends State<HomePage> {
               ),
               body: TabBarView(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          text: '第',
-                          children: <InlineSpan>[
-                            WidgetSpan(
-                                child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 0.0),
-                              child: Text(
-                                controller.model.value.data != null
-                                    ? controller
-                                        .model.value.data!.info!.lastOpenIssueNo
-                                        .toString()
-                                    : '',
-                                style: TextStyle(
-                                  fontStyle: FontStyle.normal,
-                                  color: Color(0xFF07C160),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              text: '第',
+                              children: <InlineSpan>[
+                                WidgetSpan(
+                                    child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 0.0),
+                                  child: Text(
+                                    controller.model.value.data != null
+                                        ? controller.model.value.data!.info!
+                                            .lastOpenIssueNo
+                                            .toString()
+                                        : '',
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      color: Color(0xFF07C160),
+                                    ),
+                                  ),
+                                )),
+                                const TextSpan(
+                                  text: '期最新开奖结果',
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                  ),
                                 ),
-                              ),
-                            )),
-                            const TextSpan(
-                              text: '期最新开奖结果',
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 24),
+                            child: const Text(
+                              '开奖直播',
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
+                                color: Color(0xFF07C160),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 24),
-                        child: const Text(
-                          '开奖直播',
-                          style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            color: Color(0xFF07C160),
                           ),
-                        ),
+                          Container(
+                              margin: EdgeInsets.only(left: 24),
+                              child: Image.asset(
+                                '/images/lottery-draw.gif',
+                                width: 80,
+                                height: 20,
+                              )),
+                        ],
                       ),
-                      Container(
-                          margin: EdgeInsets.only(left: 24),
-                          child: Image.asset(
-                            '/images/lottery-draw.gif',
-                            width: 80,
-                            height: 20,
-                          )),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: ballLst),
                     ],
                   ),
 
