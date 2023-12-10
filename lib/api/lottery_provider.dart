@@ -15,4 +15,21 @@ class LotteryProvider extends GetConnect {
           'gameCode': gameCode,
         },
       );
+
+  Future<Response> getGameTopicPreview(gameCode, year, pageIndex) => get(
+        'http://13.214.27.204:57769/api/public/',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods':
+              "GET, PUT, POST, DELETE, HEAD, OPTIONS"
+        },
+        query: {
+          'service': 'Lottery.getGameTopicPreview',
+          'uid': '34131269',
+          'token': '8d3afe71e47123b6555256961f270e66',
+          'year': year,
+          'gameCode': gameCode,
+          'pageIndex': pageIndex,
+        },
+      );
 }

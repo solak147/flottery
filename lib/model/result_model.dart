@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flottery/model/lottery_model.dart';
 
 class ResultModel {
@@ -11,10 +13,21 @@ class ResultModel {
     required this.msg,
   });
 
-  factory ResultModel.fromJson(String type, Map<String, dynamic> json) =>
+  factory ResultModel.fromJson(String type, Map<String, dynamic> json,
+          Function(Map<String, dynamic>) fromJsonT) =>
       ResultModel(
         ret: json["ret"],
-        data: DataModel.fromJson(type, json["data"] as Map<String, dynamic>),
+        data: DataModel.fromJson(
+            type, json["data"] as Map<String, dynamic>, fromJsonT),
+        msg: json["msg"],
+      );
+
+  factory ResultModel.fromJsonList(
+          String type, Map<String, dynamic> json, Function(List) fromJsonT) =>
+      ResultModel(
+        ret: json["ret"],
+        data: DataModel.fromJsonList(
+            type, json["data"] as Map<String, dynamic>, fromJsonT),
         msg: json["msg"],
       );
 
@@ -25,9 +38,9 @@ class ResultModel {
       };
 }
 
-class DataModel {
+class DataModel<T> {
   int code;
-  LotteryModel? info;
+  T? info;
   String msg;
 
   DataModel({
@@ -36,22 +49,28 @@ class DataModel {
     required this.msg,
   });
 
-  factory DataModel.fromJson(String type, Map<String, dynamic> json) {
-    LotteryModel? model;
-    switch (type) {
-      case '32':
-        model = LotteryModel.fromJson(json["info"] as Map<String, dynamic>);
-        break;
-      case '7':
-        break;
-    }
-
+  factory DataModel.fromJson(String type, Map<String, dynamic> json,
+      T Function(Map<String, dynamic>) fromJsonT) {
+    T? model;
+    model = fromJsonT(json["info"] as Map<String, dynamic>);
     return DataModel(
       code: json["code"],
       info: model,
       msg: json["msg"],
     );
   }
+
+  factory DataModel.fromJsonList(
+      String type, Map<String, dynamic> jsons, T Function(List) fromJsonT) {
+    T? model;
+    model = fromJsonT(jsons["info"]);
+    return DataModel(
+      code: jsons["code"],
+      info: model,
+      msg: jsons["msg"],
+    );
+  }
+
   Map<String, dynamic> toJson() => {
         "ret": code,
         "data": info,
