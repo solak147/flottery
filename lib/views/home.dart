@@ -422,6 +422,7 @@ class Waterfall extends StatelessWidget {
                 _scrollController.position.maxScrollExtent) {
               controller.previewModel.value.data!.info.add(LotteryPreivewModel(
                   name: '124',
+                  latestGallery: '223444',
                   imageHeight: '921',
                   imageWidth: '621',
                   imageUrl:
@@ -452,12 +453,20 @@ class Waterfall extends StatelessWidget {
                                 .info[index].imageWidth)) *
                         100;
 
-                    return ImageTile(
-                      imageUrl: controller
-                          .previewModel.value.data!.info[index].imageUrl,
-                      index: index,
-                      width: 100,
-                      height: height,
+                    return GestureDetector(
+                      child: ImageTile(
+                        imageUrl: controller
+                            .previewModel.value.data!.info[index].imageUrl,
+                        index: index,
+                        width: 100,
+                        height: height,
+                      ),
+                      onTap: () => Get.toNamed(RouteConfig.content, arguments: {
+                        'code': controller.lotteryTab[controller.tabIndex.value]
+                            ['code'],
+                        'forumId': controller
+                            .previewModel.value.data!.info[index].latestGallery
+                      }),
                     );
                   },
                 );

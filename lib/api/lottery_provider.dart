@@ -32,4 +32,21 @@ class LotteryProvider extends GetConnect {
           'pageIndex': pageIndex,
         },
       );
+
+  Future<Response> getGameTopicContent(gameCode, forumId) => get(
+        'http://13.214.27.204:57769/api/public/',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods':
+              "GET, PUT, POST, DELETE, HEAD, OPTIONS"
+        },
+        query: {
+          'service': 'Lottery.getGameTopicContent',
+          'uid': '34131269',
+          'token': '8d3afe71e47123b6555256961f270e66',
+          'issueNo': '0',
+          'gameCode': gameCode,
+          'forumId': forumId,
+        },
+      );
 }

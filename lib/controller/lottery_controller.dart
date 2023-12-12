@@ -27,6 +27,16 @@ class LotteryController extends GetxController {
   ).obs;
 
   var tabIndex = 0.obs;
+  // final _tabIndex = 0.obs;
+  // set tabIndex(value) => _tabIndex.value = value;
+  // get tabIndex => _tabIndex.value;
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   getLastGameRes();
+  //   getGameTopicPreview(lotteryTab[0]['code']);
+  // }
 
   @override
   void onReady() {
@@ -40,14 +50,14 @@ class LotteryController extends GetxController {
     String hkDate = "";
     var response = await _provider.getLastGameRes('32');
     if (!response.status.hasError) {
-      model.value = ResultModel.fromJson('32',
+      model.value = ResultModel.fromJson(
           json.decode(response.bodyString.toString()), LotteryModel.fromJson);
       auDate = model.value.data!.info!.nextBetTimeE.toString();
     }
 
     response = await _provider.getLastGameRes('7');
     if (!response.status.hasError) {
-      var model = ResultModel.fromJson('7',
+      var model = ResultModel.fromJson(
           json.decode(response.bodyString.toString()), LotteryModel.fromJson);
       hkDate = model.data!.info!.nextBetTimeE.toString();
     }
@@ -61,7 +71,7 @@ class LotteryController extends GetxController {
   getLastGameResByType(type) async {
     var response = await _provider.getLastGameRes(type);
     if (!response.status.hasError) {
-      model.value = ResultModel.fromJson(type,
+      model.value = ResultModel.fromJson(
           json.decode(response.bodyString.toString()), LotteryModel.fromJson);
     }
   }
@@ -76,7 +86,6 @@ class LotteryController extends GetxController {
       //     LotteryPreivewModel.previewModelFromJson);
 
       previewModel.value = ResultModel.fromJsonList(
-          '32',
           json.decode(response.bodyString.toString()),
           LotteryPreivewModel.previewModelFromJson);
       print(response.bodyString.toString());

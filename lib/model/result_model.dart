@@ -13,21 +13,21 @@ class ResultModel {
     required this.msg,
   });
 
-  factory ResultModel.fromJson(String type, Map<String, dynamic> json,
+  factory ResultModel.fromJson(Map<String, dynamic> json,
           Function(Map<String, dynamic>) fromJsonT) =>
       ResultModel(
         ret: json["ret"],
-        data: DataModel.fromJson(
-            type, json["data"] as Map<String, dynamic>, fromJsonT),
+        data:
+            DataModel.fromJson(json["data"] as Map<String, dynamic>, fromJsonT),
         msg: json["msg"],
       );
 
   factory ResultModel.fromJsonList(
-          String type, Map<String, dynamic> json, Function(List) fromJsonT) =>
+          Map<String, dynamic> json, Function(List) fromJsonT) =>
       ResultModel(
         ret: json["ret"],
         data: DataModel.fromJsonList(
-            type, json["data"] as Map<String, dynamic>, fromJsonT),
+            json["data"] as Map<String, dynamic>, fromJsonT),
         msg: json["msg"],
       );
 
@@ -49,8 +49,8 @@ class DataModel<T> {
     required this.msg,
   });
 
-  factory DataModel.fromJson(String type, Map<String, dynamic> json,
-      T Function(Map<String, dynamic>) fromJsonT) {
+  factory DataModel.fromJson(
+      Map<String, dynamic> json, T Function(Map<String, dynamic>) fromJsonT) {
     T? model;
     model = fromJsonT(json["info"] as Map<String, dynamic>);
     return DataModel(
@@ -61,7 +61,7 @@ class DataModel<T> {
   }
 
   factory DataModel.fromJsonList(
-      String type, Map<String, dynamic> jsons, T Function(List) fromJsonT) {
+      Map<String, dynamic> jsons, T Function(List) fromJsonT) {
     T? model;
     model = fromJsonT(jsons["info"]);
     return DataModel(

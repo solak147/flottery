@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flottery/controller/lottery_controller.dart';
 import 'package:flottery/router.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +9,26 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_getx_widget.dart';
 
 class History extends StatelessWidget {
   final ScrollController scroll = ScrollController();
+  // 获取当前日期时间
+  DateTime now = DateTime.now();
+
+  Timer? _debounceTimer;
 
   History({super.key});
 
   @override
   Widget build(BuildContext context) {
     scroll.addListener(() {
-      print((scroll.offset / 50).round());
+      // 如果有定时器在运行，取消它
+      if (_debounceTimer?.isActive ?? false) {
+        _debounceTimer?.cancel();
+      }
+
+      // 创建一个新的定时器，在300毫秒后执行相应的操作
+      _debounceTimer = Timer(Duration(milliseconds: 500), () {
+        // 处理滚动事件的代码放在这里
+        print((scroll.offset / 50).round());
+      });
     });
 
     return GetX<LotteryController>(
@@ -39,19 +54,55 @@ class History extends StatelessWidget {
                       // 在這裡處理另一個右圖示的點擊事件
                       print('另一個右圖示被點擊了');
                       Get.bottomSheet(Container(
-                          height: 200,
+                          height: 300,
                           color: Colors.white,
-                          child: ListView.builder(
-                              controller: scroll,
-                              itemCount: 101,
-                              itemExtent: 51.0, //强制高度为50.0
-                              physics:
-                                  AlwaysScrollableScrollPhysics(), // 强制启用滑动
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                    title:
-                                        index > 99 ? Text('') : Text("$index"));
-                              })));
+                          child: Scaffold(
+                            appBar: AppBar(
+                              titleTextStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              backgroundColor: Colors.white,
+                              title: Center(child: Text('選擇年月')),
+                              leading: GestureDetector(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 18, left: 10),
+                                  child: Text(
+                                    '取消',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
+                                ),
+                                onTap: () => Get.back(),
+                              ),
+                              actions: [
+                                GestureDetector(
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Text(
+                                      '確定',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.blueAccent),
+                                    ),
+                                  ),
+                                  onTap: () => Get.back(),
+                                ),
+                              ],
+                            ),
+                            body: ListView.builder(
+                                controller: scroll,
+                                itemCount: 101,
+                                itemExtent: 51.0, //强制高度为50.0
+                                physics:
+                                    AlwaysScrollableScrollPhysics(), // 强制启用滑动
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ListTile(
+                                      title: index > 99
+                                          ? Text('')
+                                          : Text("$index"));
+                                }),
+                          )));
                     },
                   ),
                 ],
