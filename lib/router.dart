@@ -1,7 +1,7 @@
 import 'package:flottery/views/content.dart';
 import 'package:flottery/views/history.dart';
 import 'package:flottery/views/home.dart';
-import 'package:flottery/views/test.dart';
+import 'package:flottery/views/test/getX.dart';
 import 'package:get/get.dart';
 
 class RouteConfig {
